@@ -1,0 +1,7 @@
+{ "id": "1",
+  "command": "ls -ltr",
+  "dynoSize": "Free",
+  "frequency": "Daily",
+  "lastRun": "Feb 1 2:00 UTC",
+  "nextDue": "Feb 2 2:00 UTC"
+}

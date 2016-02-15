@@ -1,0 +1,135 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-40">
+      <!--Body content-->
+  
+      <ul class="schedule">
+        <li ng-repeat="item in schedule" class="scheduled-item img-rounded">
+          <div class="item-command img-rounded">
+            <div class="command-prompt">$</div>
+            {{item.command}}
+          </div>
+          <div class="run-specs">
+            <div class="item-control-data">
+              <h6>{{ "Dyno size" | uppercase }}</h6>
+              <div class="edit-data-container" ng-switch on="getEdit(item)">
+                <div ng-switch-when=false>{{item.dynoSize}}</div>
+                <div ng-switch-when=true>
+                  <select name="dynoSizeSelect" ng-model="item.dynoSize">
+                    <option value="Free">Free</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="item-control-data">
+              <h6>{{ "Frequency" | uppercase }}</h6>
+              <div class="edit-data-container" ng-switch on="getEdit(item)">
+                <div ng-switch-when=false>{{item.frequency}}</div>
+                <div ng-switch-when=true>
+                  <select name="frequencySelect" ng-model="item.frequency">
+                    <option value="Daily">Daily</option>
+                    <option value="Hourly">Hourly</option>
+                    <option value="Every10">Every 10 Minutes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="item-control-data">
+              <h6>{{ "Last run" | uppercase }}</h6>
+              <div>{{item.lastRun}}</div>
+            </div>
+            <div class="item-control-data">
+              <h6>{{ "Next due" | uppercase }}</h6>
+              <div class="edit-data-container" ng-switch on="getEdit(item)">
+                  <div ng-switch-when=false>{{getDate(item.nextDue) | date:"MMM dd hh:mm UTC"}}</div>
+                  <div ng-switch-when=true>
+                    <div class="edit-next-due-container" ng-switch on="item.frequency">
+                      <div ng-switch-when="Daily">
+                        {{getDate(item.nextDue) | date:"MMM dd ":"UTC"}}
+                        <select ng-options="time as time for time in timeArray" ng-model="item.time"></select>
+                        UTC
+                      </div>
+                      <div ng-switch-when="Hourly">
+                        <select ng-options="offHour as offHour for offHour in offHoursArray" ng-model="item.offHour"></select>
+                      </div>
+                      <div ng-switch-when="Every10">
+                        {{getNext10Date(item) | date:"MMM dd hh:mm UTC"}}
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="buttons">
+            <div class="edit-button-container" ng-switch on="getEdit(item)">
+              <div class="edit img-rounded" ng-switch-when=false ng-click="toggleEdit(item)">Edit</div>
+              <div class="save img-rounded" ng-switch-when=true ng-click="saveItem(item);toggleEdit(item);">Save</div>
+            </div>
+            <div class="edit-button-container" ng-switch on="getEdit(item)">
+              <div class="remove" ng-switch-when=false>Remove</div>
+              <div class="cancel" ng-switch-when=true ng-click="toggleEdit(item)">Cancel</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="edit-data-container" ng-switch on="getAddItem()">
+        <div ng-switch-when=false>
+          <div class="add-button-container img-rounded">
+            <div class="add-button img-rounded" ng-click="toggleAddItem()"> 
+              Add new job
+            </div>
+          </div>
+        </div>
+        <div ng-switch-when=true>
+          <div class="scheduled-item img-rounded">
+              <div class="item-command img-rounded">
+                <div class="command-prompt">$</div>
+                {{newItem.command}}
+              </div>
+              <div class="run-specs">
+                <div class="item-control-data">
+                  <h6>{{ "Dyno size" | uppercase }}</h6>
+                  <select name="dynoSizeSelect" ng-model="newItem.dynoSize">
+                    <option value="Free">Free</option>
+                  </select>
+                </div>
+                <div class="item-control-data">
+                  <h6>{{ "Frequency" | uppercase }}</h6>
+                  <select name="frequencySelect" ng-model="newItem.frequency">
+                    <option value="Daily">Daily</option>
+                    <option value="Hourly">Hourly</option>
+                    <option value="Every10">Every 10 Minutes</option>
+                  </select>
+                </div>
+                <div class="item-control-data">
+                  <h6>{{ "Last run" | uppercase }}</h6>
+                  <div>{{newItem.lastRun}}</div>
+                </div>
+                <div class="item-control-data">
+                  <h6>{{ "Next due" | uppercase }}</h6>
+                  <div class="edit-next-due-container" ng-switch on="newItem.frequency">
+                    <div ng-switch-when="Daily">
+                      {{getDate(newItem.nextDue) | date:"MMM dd ":"UTC"}}
+                      <select ng-options="time as time for time in timeArray" ng-model="newItem.time"></select>
+                      UTC
+                    </div>
+                    <div ng-switch-when="Hourly">
+                      <select ng-options="offHour as offHour for offHour in offHoursArray" ng-model="newItem.offHour"></select>
+                    </div>
+                    <div ng-switch-when="Every10">
+                      {{getNext10Date(newItem) | date:"MMM dd hh:mm UTC"}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="buttons">
+                <div class="save img-rounded" ng-click="saveItem(newItem);toggleAddItem();">Save</div>
+                <div class="cancel" ng-click="toggleAddItem()">Cancel</div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
