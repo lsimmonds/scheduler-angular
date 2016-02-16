@@ -4,8 +4,8 @@
 
 var schedulerControllers = angular.module('schedulerControllers', []);
 
-schedulerControllers.controller('SchedulerCtrl', ['$scope', '$http',
-  function ($scope, $http) {
+schedulerControllers.controller('SchedulerCtrl', ['$scope', '$http', '$timeout',
+  function ($scope, $http, $timeout) {
     $http.get('schedule/schedule.json').then(function(data) {
 console.log("data: "+angular.toJson(data));
       $scope.schedule = data.data;
@@ -30,24 +30,35 @@ console.log("$scope.schedule: "+angular.toJson($scope.schedule));
       return item.edit;
     };
     $scope.toggleEdit = function(item) { 
-      if(item.edit) { item.edit=false; }
-      else { item.edit=true; }
+      if(item.edit) {
+        document.getElementById("item-command-"+item.id).contentEditable = "false";
+        item.edit=false;
+      }
+      else {
+        document.getElementById("item-command-"+item.id).contentEditable = "true";
+        item.edit=true;
+      }
     };
     var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     var addItem = false;
     $scope.getAddItem = function() { 
       return addItem;
     };
+    $scope.setNewItemCommandEdit = function() { 
+      document.getElementById("new-item-command").contentEditable = "true";
+      return true;
+    };
     $scope.toggleAddItem = function() { 
       if(addItem) {
         addItem=false;
         $scope.newItem=null;
+        document.getElementById("new-item-command").contentEditable = "false";
       }
       else {
         var newNextDue = new Date();
         newNextDue.setDate(newNextDue.getDate() + 1);
         var nextDue = getDateString(getUTCDate(newNextDue));
-        $scope.newItem={"command":"","dynoSize":"Free","frequency":"Daily","lastRun":"","nextDue":nextDue,"edit":false};
+        $scope.newItem={"command":" ","dynoSize":"Free","frequency":"Daily","lastRun":"","nextDue":nextDue,"edit":false};
         addItem=true;
       }
     };

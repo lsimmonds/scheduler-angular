@@ -5,10 +5,12 @@
   
       <ul class="schedule">
         <li ng-repeat="item in schedule" class="scheduled-item img-rounded">
-          <div class="item-command img-rounded">
-            <div class="command-prompt">$</div>
-            {{item.command}}
-          </div>
+            <div class="command-line img-rounded">
+              <div class="command-prompt">$</div>
+              <div class="item-command" ng-attr-id="{{ 'item-command-' + item.id }}">
+                {{item.command}}
+              </div>
+            </div>
           <div class="run-specs">
             <div class="item-control-data">
               <h6>{{ "Dyno size" | uppercase }}</h6>
@@ -82,9 +84,11 @@
         </div>
         <div ng-switch-when=true>
           <div class="scheduled-item img-rounded">
-              <div class="item-command img-rounded">
+              <div class="command-line img-rounded">
                 <div class="command-prompt">$</div>
-                {{newItem.command}}
+                <div class="item-command" ng-attr-id="{{'new-item-command'}}" ng-click="setNewItemCommandEdit()">
+                  {{newItem.command}}
+                </div>
               </div>
               <div class="run-specs">
                 <div class="item-control-data">
