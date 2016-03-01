@@ -33,7 +33,7 @@ describe('Scheduler Controllers', function() {
     it('should enhance "schedule" model with data needed for processing', function() {
       expect(scope.schedule).toBeUndefined();
       $httpBackend.flush();
-      expect(scope.schedule).toEqual([ { id : '1', command : 'ls -ltr', dynoSize : 'Free', frequency : 'Daily', lastRun : 'Feb 1 2:00 UTC', nextDue : 'Feb 2 2:00 UTC', edit : false, time : '2:00' }, { id : '2', command : 'ls -ltr', dynoSize : 'Free', frequency : 'Hourly', lastRun : 'Feb 1 2:00 UTC', nextDue : 'Feb 1 3:00 UTC', edit : false, offHour : ':00' } ]);
+      expect(scope.schedule).toEqual([ { id : '1', command : 'ls -ltr', dynoSize : 'Free', frequency : 'Daily', lastRun : 'Feb 1 2:00 UTC', nextDue : 'Feb 2 2:00 UTC', edit : false, remove: false, time : '2:00' }, { id : '2', command : 'ls -ltr', dynoSize : 'Free', frequency : 'Hourly', lastRun : 'Feb 1 2:00 UTC', nextDue : 'Feb 1 3:00 UTC', edit : false, remove: false, offHour : ':00' } ]);
     });
 
     describe('getEdit', function(){
