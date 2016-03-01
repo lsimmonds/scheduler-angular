@@ -108,30 +108,32 @@ describe('Scheduler App', function() {
             expect(hourOptions.first().isDisplayed()).toBe(true);
             expect(hourOptions.count()).toEqual(49);
           });
-
-          it('should set next Next Due with the selected hour', function () {
-            expect(true).toBe(true);
-          });
         });
 
         describe('Frequency is Hourly', function() {
           it('should allow the user to edit the 10 minute fraction of an hour for Next Due', function () {
-          expect(true).toBe(true);
-          });
-
-          it('should set next Next Due to the correct time', function () {
-          expect(true).toBe(true);
-          });
-        });
-
-        describe('Frequency is Every 10 minutes', function() {
-          it('should set Next Due to 10 minutes from now', function () {
-          expect(true).toBe(true);
+            editButton.click();
+            expect(typeof offHourOptions).toBe("undefined");
+            var freqSelect = element.all(by.name('frequencySelect')).get(0);
+            var dailyOption = freqSelect.element(by.cssContainingText('option', 'Hourly'));
+            dailyOption.click();
+            var offHourOptions = element.all(by.options('offHour as offHour for offHour in offHoursArray'));
+            expect(offHourOptions.first().isDisplayed()).toBe(true);
+            expect(offHourOptions.count()).toEqual(8);
           });
         });
 
         it('should save the updates when the save button is clicked', function () {
-          expect(true).toBe(true);
+          var buttons = element.all(by.css('.edit-button-container')).first();
+          var editButton = buttons.element(by.css('.edit'));
+          var saveButton = buttons.element(by.css('.save'));
+          var command = element.all(by.binding('item.command')).get(0);
+          editButton.click();
+          command.clear().then(function() {
+            command.sendKeys("A new command");
+          });
+          saveButton.click();
+          expect(command.getText()).toBe("A new command");
         });
       });
 

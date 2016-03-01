@@ -24,6 +24,67 @@ body {
   margin-bottom: 25px;
 }
 
+.remove-button-container {
+  width: 600px;
+  margin: 10px auto;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.cancel-remove {
+  width: 78px;
+  height: 34px;
+  border: 1px solid white;
+  color: white;
+  text-align: center;
+  padding-top: 5px;
+  margin-right: 8px;
+  font-size: 15px;
+  font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;
+  font-weight: 900;
+}
+
+.remove-job {
+  width: 116px;
+  height: 34px;
+  background-color: rgb(121, 88, 159);
+  color: white;
+  text-align: center;
+  padding-top: 5px;
+  margin-left: 8px;
+  font-size: 15px;
+  font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;
+  font-weight: 900;
+}
+
+.remove-message {
+  font-size: 14px;
+  font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;
+  font-style: normal;
+  text-align: center;
+  color: white;
+}
+
+.remove-confirm {
+  background-color: black;
+  width: 700px;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+  float: top;   
+  border: 1px solid black;
+  padding-top: 32px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 18px;
+  font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;
+  font-style: normal;
+  text-align: center;
+  color: white;
+}           
+
 .add-button-container {
   background-color: white;
   width: 700px;
@@ -51,7 +112,6 @@ body {
   font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;
   font-style: normal;
   text-align: center;
-  vertical-align: middle;
 }
 
 .command-line {
@@ -100,7 +160,7 @@ body {
   padding-left: 4px;
 }
 
-h6 {
+h6 .job-info {
   color: gray;
   font-size: 14px;
   font-family: "benton-sans,"Helvetica Neue",helvetica,arial,sans-serif;

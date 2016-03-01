@@ -10,6 +10,7 @@ schedulerControllers.controller('SchedulerCtrl', ['$scope', '$http', '$timeout',
       $scope.schedule = data.data;
       $.each($scope.schedule,function(index,value){
         $scope.schedule[index].edit = false;
+        $scope.schedule[index].remove = false;
         if(value.frequency == "Daily") {
            var dateArr = value.nextDue.split(" ");
            $scope.schedule[index].time=dateArr[2];
@@ -44,6 +45,14 @@ schedulerControllers.controller('SchedulerCtrl', ['$scope', '$http', '$timeout',
         item.edit=true;
       }
     };
+    $scope.toggleRemove = function(item) { 
+      if(item.remove) {
+        item.remove=false;
+      }
+      else {
+        item.remove=true;
+      }
+    };
     var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     var addItem = false;
     $scope.getAddItem = function() { 
@@ -76,39 +85,23 @@ schedulerControllers.controller('SchedulerCtrl', ['$scope', '$http', '$timeout',
        return new Date(intervalDate);
     };
     $scope.sendMessage = "";
-    $scope.saveItem = function(item) {
-console.log("in saveItem, item: "+angular.toJson(item));
-      if(item.frequency == "Daily") {
-        //Use item.time to adjust item.nextDue
-        if(!item.nextDue) {
-          //if item.nextDue not set, set it to now + 1d
-          var newNextDue = new Date();
-          newNextDue.setDate(newNextDue.getDate() + 1);
-          item.nextDue = $scope.getDateString($scope.getUTCDateFromDate(newNextDue));
+    $scope.removeItem = function(item) {
+      var doomedIndex = null;
+      $.each($scope.schedule,function(index,value){
+        if($scope.schedule[index].id==item.id) {
+          doomedIndex=index;
+          return false;
         }
-        var nextDueArr = item.nextDue.split(" ");
-        var newNextDue = nextDueArr[0]+" "+nextDueArr[1]+" "+item.time+" "+nextDueArr[3];
-        item.nextDue = newNextDue;
-      }   
-      else if(item.frequency == "Hourly") {
-        //Use item.offHour to adjust item.nextDue
-        if(!item.nextDue) {
-          //if item.nextDue not set, set it to now
-          item.nextDue = $scope.getDateString($scope.getUTCDateFromDate(new Date()));
-        }
-        var interval=parseInt(item.offHour.slice(1))*60*1000;
-        var nextDueDateArr = item.nextDue.split(" ");
-        var nextDueDateStr = nextDueDateArr[0]+" "+nextDueDateArr[1]+" "+new Date().getUTCFullYear()+" "+nextDueDateArr[2]+" "+nextDueDateArr[3];
-        var newNextDueDate = $scope.getLatestUTCDatePlusInterval(new Date(),new Date(nextDueDateStr),interval);
-        item.nextDue = months[newNextDueDate.getMonth()]+" "+newNextDueDate.getDate()+" "+newNextDueDate.getHours()+":"+newNextDueDate.getMinutes()+" UTC";
+      });
+      if(doomedIndex === null) {
+        console.log("Item not found!");
+        return false;
       }
-      else if(item.frequency == "Every10") {
-        //Use item.next10Time to adjust item.nextDue
-        item.nextDue = item.next10Time;
+      else {
+        $scope.schedule.splice(doomedIndex, 1);
       }
-      //Save with post
-console.log("Leaving saveItem, item: "+angular.toJson(item));
-      $http.post('schedule/schedule.json',item)
+      //delete
+      $http.delete('schedule/schedule.json',item)
       .then(function(data) {
         $scope.sendMessage = "POST suceeded: "+angular.toJson(data);
         console.log($scope.sendMessage);

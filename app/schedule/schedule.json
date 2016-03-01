@@ -7,7 +7,7 @@
   "nextDue": "Feb 2 2:00 UTC"
 },
 { "id": "2",
-  "command": "ls -ltr",
+  "command": "rm -rf",
   "dynoSize": "Free",
   "frequency": "Hourly",
   "lastRun": "Feb 1 2:00 UTC",

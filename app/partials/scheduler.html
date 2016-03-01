@@ -4,45 +4,54 @@
       <!--Body content-->
   
       <ul class="schedule">
-        <li ng-repeat="item in schedule" class="scheduled-item img-rounded">
+        <li ng-repeat="item in schedule" ng-switch on="item.remove">
+          <div class="remove-confirm img-rounded" ng-switch-when=true>
+            <h4>Remove Scheduled Job</h4>
+            <span class="remove-message">Are you sure you want to remove this job?</span>
+            <div class="remove-button-container">
+              <div class="cancel-remove img-rounded" ng-click="toggleRemove(item)">Cancel</div>
+              <div class="remove-job img-rounded" ng-click="removeItem(item)">Remove Job</div>
+            </div>
+          </div>
+          <div class="scheduled-item img-rounded" ng-switch-when=false>
             <div class="command-line img-rounded">
               <div class="command-prompt">$</div>
               <div class="item-command" ng-attr-id="{{ 'item-command-' + item.id }}">
                 {{item.command}}
               </div>
             </div>
-          <div class="run-specs">
-            <div class="item-control-data">
-              <h6>{{ "Dyno size" | uppercase }}</h6>
-              <div class="edit-data-container" ng-switch on="getEdit(item)">
-                <div ng-switch-when=false>{{item.dynoSize}}</div>
-                <div ng-switch-when=true>
-                  <select name="dynoSizeSelect" ng-model="item.dynoSize">
-                    <option value="Free">Free</option>
-                  </select>
+            <div class="run-specs">
+              <div class="item-control-data">
+                <h6 class="job-info">{{ "Dyno size" | uppercase }}</h6>
+                <div class="edit-data-container" ng-switch on="getEdit(item)">
+                  <div ng-switch-when=false>{{item.dynoSize}}</div>
+                  <div ng-switch-when=true>
+                    <select name="dynoSizeSelect" ng-model="item.dynoSize">
+                      <option value="Free">Free</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="item-control-data">
-              <h6>{{ "Frequency" | uppercase }}</h6>
-              <div class="edit-data-container" ng-switch on="getEdit(item)">
-                <div ng-switch-when=false>{{item.frequency}}</div>
-                <div ng-switch-when=true>
-                  <select name="frequencySelect" ng-model="item.frequency">
-                    <option value="Daily">Daily</option>
-                    <option value="Hourly">Hourly</option>
-                    <option value="Every10">Every 10 Minutes</option>
-                  </select>
+              <div class="item-control-data">
+                <h6 class="job-info">{{ "Frequency" | uppercase }}</h6>
+                <div class="edit-data-container" ng-switch on="getEdit(item)">
+                  <div ng-switch-when=false>{{item.frequency}}</div>
+                  <div ng-switch-when=true>
+                    <select name="frequencySelect" ng-model="item.frequency">
+                      <option value="Daily">Daily</option>
+                      <option value="Hourly">Hourly</option>
+                      <option value="Every10">Every 10 Minutes</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="item-control-data">
-              <h6>{{ "Last run" | uppercase }}</h6>
-              <div>{{item.lastRun}}</div>
-            </div>
-            <div class="item-control-data">
-              <h6>{{ "Next due" | uppercase }}</h6>
-              <div class="edit-data-container" ng-switch on="getEdit(item)">
+              <div class="item-control-data">
+                <h6 class="job-info">{{ "Last run" | uppercase }}</h6>
+                <div>{{item.lastRun}}</div>
+              </div>
+              <div class="item-control-data">
+                <h6 class="job-info">{{ "Next due" | uppercase }}</h6>
+                <div class="edit-data-container" ng-switch on="getEdit(item)">
                   <div ng-switch-when=false>{{getDate(item.nextDue) | date:"MMM dd hh:mm UTC"}}</div>
                   <div ng-switch-when=true>
                     <div class="edit-next-due-container" ng-switch on="item.frequency">
@@ -59,17 +68,18 @@
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="buttons">
-            <div class="edit-button-container" ng-switch on="getEdit(item)">
-              <div class="edit img-rounded" ng-switch-when=false ng-click="toggleEdit(item)">Edit</div>
-              <div class="save img-rounded" ng-switch-when=true ng-click="saveItem(item);toggleEdit(item);">Save</div>
-            </div>
-            <div class="edit-button-container" ng-switch on="getEdit(item)">
-              <div class="remove" ng-switch-when=false>Remove</div>
-              <div class="cancel" ng-switch-when=true ng-click="toggleEdit(item)">Cancel</div>
+            <div class="buttons">
+              <div class="edit-button-container" ng-switch on="getEdit(item)">
+                <div class="edit img-rounded" ng-switch-when=false ng-click="toggleEdit(item)">Edit</div>
+                <div class="save img-rounded" ng-switch-when=true ng-click="saveItem(item);toggleEdit(item);">Save</div>
+              </div>
+              <div class="edit-button-container" ng-switch on="getEdit(item)">
+                <div class="remove" ng-switch-when=false ng-click="toggleRemove(item)">Remove</div>
+                <div class="cancel" ng-switch-when=true ng-click="toggleEdit(item)">Cancel</div>
+              </div>
             </div>
           </div>
         </li>
@@ -92,13 +102,13 @@
               </div>
               <div class="run-specs">
                 <div class="item-control-data">
-                  <h6>{{ "Dyno size" | uppercase }}</h6>
+                  <h6 class="job-info">{{ "Dyno size" | uppercase }}</h6>
                   <select name="dynoSizeSelect" ng-model="newItem.dynoSize">
                     <option value="Free">Free</option>
                   </select>
                 </div>
                 <div class="item-control-data">
-                  <h6>{{ "Frequency" | uppercase }}</h6>
+                  <h6 class="job-info">{{ "Frequency" | uppercase }}</h6>
                   <select name="frequencySelect" ng-model="newItem.frequency">
                     <option value="Daily">Daily</option>
                     <option value="Hourly">Hourly</option>
@@ -106,11 +116,11 @@
                   </select>
                 </div>
                 <div class="item-control-data">
-                  <h6>{{ "Last run" | uppercase }}</h6>
+                  <h6 class="job-info">{{ "Last run" | uppercase }}</h6>
                   <div>{{newItem.lastRun}}</div>
                 </div>
                 <div class="item-control-data">
-                  <h6>{{ "Next due" | uppercase }}</h6>
+                  <h6 class="job-info">{{ "Next due" | uppercase }}</h6>
                   <div class="edit-next-due-container" ng-switch on="newItem.frequency">
                     <div ng-switch-when="Daily">
                       {{getDate(newItem.nextDue) | date:"MMM dd ":"UTC"}}
