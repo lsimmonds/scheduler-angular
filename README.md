@@ -11,4 +11,6 @@ npm install
 
 Run unit tests: npm test
 
-Run e2e tests: npm run protractor
+Run e2e tests: Start npm server (in another window)
+
+Then: npm run protractor
